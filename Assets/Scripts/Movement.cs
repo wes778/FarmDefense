@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+[RequireComponent(typeof(NavMeshAgent))]
 public class Movement : MonoBehaviour
 {
     private NavMeshAgent meshAgent;
+    private const float stoppingDist = 1.5f;
 
 
     private void Awake()
 
     {
         meshAgent = GetComponent<NavMeshAgent>();
+        meshAgent.stoppingDistance = stoppingDist;
     }
 
 

@@ -5,12 +5,14 @@ using UnityEngine;
 public class FindFoodOrWater : MonoBehaviour
 {
     private int radiusToLookForFood = 10;
+    private int expandLookRadius = 1;
 
 
     public GameObject LocateFood()
     {
         GameObject foodLocation = null;
-        Collider[] allObjects = Physics.OverlapSphere(this.transform.position, radiusToLookForFood);
+        Collider[] allObjects = Physics.OverlapSphere(this.transform.position, radiusToLookForFood * expandLookRadius);
+        
         for(int i = 0; i < allObjects.Length; i++)
         {
             if(allObjects[i].CompareTag("Food"))
@@ -19,8 +21,14 @@ public class FindFoodOrWater : MonoBehaviour
                 break;
             }
         }
-        
-        
+        if(foodLocation == null)
+        {
+            expandLookRadius++;
+        }
+        else
+        {
+            expandLookRadius = 1;
+        }
         return foodLocation;
     }
 

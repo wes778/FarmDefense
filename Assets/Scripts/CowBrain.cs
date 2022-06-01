@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(FindFoodOrWater))]
 [RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 public class CowBrain : MonoBehaviour
 {
     private FindFoodOrWater findFood;
@@ -17,6 +18,9 @@ public class CowBrain : MonoBehaviour
 
     private const float TickRateForThirstToDeplete = 5f;
     private float thirstTimer = TickRateForThirstToDeplete;
+
+    private GameObject currentFood;
+    private GameObject currentWater;
 
 
 
@@ -36,51 +40,59 @@ public class CowBrain : MonoBehaviour
     public State state = State.Happy;
 
 
-    private void LateUpdate()
+    private void Update()
     {
-        
+
         if (state == State.Hungry)
         {
-            
-            
-            GameObject currentFood = findFood.LocateFood();
-            
-            if (currentFood != null)
+
+            if(currentFood == null)
             {
-                movement.MoveToTarget(currentFood.transform);
-                if (movement.HasReachedDestionation())
+                currentFood = findFood.LocateFood();
+                if(currentFood != null)
                 {
-                    Destroy(currentFood);
-                    hungerLevel += 1;
-                    CheckCurrentState();
+                    movement.MoveToTarget(currentFood.transform);
                 }
+                
             }
+
+            if (movement.HasReachedDestionation())
+            {
+
+                Destroy(currentFood);
+                currentFood = null;
+                hungerLevel += 1;
+                CheckCurrentState();
+            }
+
         }
         if (state == State.Thirsty)
         {
-            GameObject currentWater = findFood.LocateWater();
-            
-            if (currentWater != null)
+            if(currentWater == null)
             {
-                movement.MoveToTarget(currentWater.transform);
-                if (movement.HasReachedDestionation())
+                currentWater = findFood.LocateWater();
+                if (currentWater != null)
                 {
-                    Destroy(currentWater);
-                    thirstLevel += 1;
-                    CheckCurrentState();
+                    movement.MoveToTarget(currentWater.transform);
                 }
-
             }
+            
+            if (movement.HasReachedDestionation())
+            {
+
+                Destroy(currentWater);
+                currentWater = null;
+                thirstLevel += 1;
+                CheckCurrentState();
+            }
+
+
         }
-    }
-    private void Update()
-    {
         ReduceHungerAndThirst();
         if (state == State.Happy)
         {
             CheckCurrentState();
         }
-
     }
 
     private void ReduceHungerAndThirst()
@@ -122,5 +134,5 @@ public class CowBrain : MonoBehaviour
         }
     }
 
-    
+
 }
