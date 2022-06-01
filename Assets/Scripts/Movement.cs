@@ -6,44 +6,44 @@ using UnityEngine.AI;
 public class Movement : MonoBehaviour
 {
     private NavMeshAgent meshAgent;
-    private Vector3 offset = new Vector3(0,0,-1.5f);
+
 
     private void Awake()
 
     {
         meshAgent = GetComponent<NavMeshAgent>();
     }
-  
 
-    public bool MoveToTarget(Transform target)
+
+    public void MoveToTarget(Transform target)
     {
-        meshAgent.SetDestination(target.position);
-        
-        return HasReachedDestionation();
+        meshAgent.SetDestination(target.position); 
+    }
+
+    public bool HasAPath()
+    {
+        return meshAgent.hasPath;
     }
 
     public bool HasReachedDestionation()
     {
-        Debug.Log(meshAgent.remainingDistance);
-        Debug.Log(meshAgent.hasPath);
+
+        
+        
         bool reachedOrNot = false;
         if (meshAgent.hasPath)
         {
-            if (meshAgent.remainingDistance <= meshAgent.stoppingDistance)
+            
+            if (meshAgent.remainingDistance <= meshAgent.stoppingDistance && meshAgent.velocity == Vector3.zero)
             {
+
                 reachedOrNot = true;
+                meshAgent.ResetPath();
             }
         }
-        
-            /*if (!meshAgent.hasPath || meshAgent.velocity.sqrMagnitude == 0f)
-            {
+        return reachedOrNot;
 
-                //reachedOrNot = true;
-            }
-        }*/
-            return reachedOrNot;    
-        
     }
 
-    
+
 }
