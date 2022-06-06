@@ -6,13 +6,27 @@ public class Food : MonoBehaviour
 {
     public int satietyPoints;
     private FoodTrough curTroughWhereThisFoodIs;
+    private bool isEdiable = false;
     private void OnDestroy()
     {
-        curTroughWhereThisFoodIs.FoodEaten();
-        Debug.Log("ate");
+        if(isEdiable)
+        {
+            curTroughWhereThisFoodIs.FoodEaten();
+        }
+        
     }
     public void CurrentTrough(FoodTrough ft)
     {
         curTroughWhereThisFoodIs = ft;
+    }
+
+    public bool GetIsEdiable()
+    {
+        return isEdiable;
+    }
+
+    public void SetIsEdiable(bool b)
+    {
+        isEdiable = b;
     }
 }

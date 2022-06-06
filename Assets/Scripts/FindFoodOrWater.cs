@@ -15,7 +15,7 @@ public class FindFoodOrWater : MonoBehaviour
         
         for(int i = 0; i < allObjects.Length; i++)
         {
-            if(allObjects[i].CompareTag("Food"))
+            if(allObjects[i].CompareTag("Food") && allObjects[i].GetComponent<Food>().GetIsEdiable())
             {
                 foodLocation = allObjects[i].gameObject;
                 break;

@@ -13,10 +13,10 @@ public class CowBrain : MonoBehaviour
     private int hungerLevel = 1;
     private int thirstLevel = 1;
 
-    private const float TickRateForFoodToDeplete = 6f;
+    private const float TickRateForFoodToDeplete = 10f;
     private float foodTimer = TickRateForFoodToDeplete;
 
-    private const float TickRateForThirstToDeplete = 6f;
+    private const float TickRateForThirstToDeplete = 10f;
     private float thirstTimer = TickRateForThirstToDeplete;
 
     private GameObject currentFood;

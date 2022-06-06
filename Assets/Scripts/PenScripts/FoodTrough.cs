@@ -33,10 +33,10 @@ public class FoodTrough : MonoBehaviour
     {
         if(currentFood != null)
         {
-            Debug.Log("Made and set");
             yOffset = currentFood.transform.localScale.y * 3;
             yOffset += transform.localScale.y;
             Food cf = Instantiate(currentFood, this.transform.position + new Vector3(0, yOffset, 0), this.transform.rotation);
+            cf.SetIsEdiable(true);
             cf.CurrentTrough(this);
             
         }

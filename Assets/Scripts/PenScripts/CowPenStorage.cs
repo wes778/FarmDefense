@@ -10,25 +10,43 @@ public class CowPenStorage : MonoBehaviour
     private FoodTrough ft;
     public Food foodToEat;
     public Water water;
+    private VisualStorage vs;
 
 
     private void Awake()
     {
         wt = GetComponentInChildren<WaterTrough>();
         ft = GetComponentInChildren<FoodTrough>();
+        vs = GetComponentInChildren<VisualStorage>();
         animalFeed = new Queue<Food>();
         animalWater = new Queue<Water>();
         for (int i = 0; i < 3; i++)
         {
             animalFeed.Enqueue(foodToEat);
+            if(i != 0)
+            {
+               vs.AddToStorage(foodToEat.transform);
+            }
+          
+            //AddToStorage();
+            
         }
-        Debug.Log(animalFeed.Count);
-        //Debug.Log(animalFeed.Count);
         for (int i = 0; i < 3; i++)
         {
             animalWater.Enqueue(water);
         }
 
+    }
+    public void AddToCowPenStorage()
+    {
+
+    }
+    private void AddToStorage()
+    {
+        if(ft.GetCurrentFood() != null)
+        {
+            vs.AddToStorage(foodToEat.transform);
+        }
     }
 
     //re do this when you have done the food trough and water trough
@@ -37,7 +55,6 @@ public class CowPenStorage : MonoBehaviour
 
         if (animalWater.Count > 0 && wt.GetCurrentWater() == null)
         {
-            Debug.Log("water");
             Water curWaterToAdd = animalWater.Dequeue();
             wt.AddWaterToTrough(curWaterToAdd);
             wt.Instantiate();
@@ -51,10 +68,10 @@ public class CowPenStorage : MonoBehaviour
 
         if (animalFeed.Count > 0 && ft.GetCurrentFood() == null)
         {
-            Debug.Log("Yup");
             Food curFoodToAdd = animalFeed.Dequeue();
             ft.AddFoodToTrough(curFoodToAdd);
             ft.Instantiate();
+            vs.RemoveFromStorage();
         }
         else
         {
